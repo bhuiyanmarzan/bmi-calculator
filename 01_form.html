@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #main-input-container {
+        width: 500px;
+        padding: 30px;
+        background-color: beige;
+        border-radius: 20px;
+      }
+      #main-input-container h2 {
+        margin-bottom: 25px;
+      }
+      .input-box-container {
+        position: relative;
+        width: 80px;
+        height: 30px;
+        border: 1px solid black;
+        border-radius: 8px;
+        padding: 5px 10px;
+      }
+      .input-box-container .input-box {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        outline: none;
+        border: none;
+        background-color: transparent;
+      }
+      .input-box-container .input-box:active {
+        outline: none;
+        border: none;
+      }
+      .input-box-container .placeholder {
+        position: absolute;
+        color: #808080;
+        top: 4px;
+        right: 8px;
+      }
+      .weight-field {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+      .height-box {
+        display: flex;
+        gap: 15px;
+      }
+      #calculate-Btn {
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+        background-color: #212121;
+        border-radius: 8px;
+        color: #fff;
+      }
+      #calculate-Btn:hover {
+        background-color: #3d3d3d;
+      }
+      .hr-line {
+        width: 100%;
+        height: 2px;
+        background-color: #808080;
+        margin: 15px 0px;
+      }
+      .result {
+        color: #808080;
+        margin: 15px 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" id="main-input-container">
+      <h2>BMI (Body Mass Index) Calculator</h2>
+      <div class="weight-field">
+        <label for="">Weight</label>
+        <div class="input-box-container">
+          <input type="text" class="input-box" id="weight-In-Kg" />
+          <div class="placeholder">kg</div>
+        </div>
+      </div>
+      <div class="weight-field">
+        <label for="">Height</label>
+        <div class="height-box">
+          <div class="input-box-container height-box">
+            <input type="text" class="input-box" id="height-in-feet" />
+            <div class="placeholder">feet</div>
+          </div>
+          <div class="input-box-container height-box">
+            <input type="text" class="input-box" id="height-in-inch" />
+            <div class="placeholder">inch</div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" id="calculate-Btn">Calculate BMI</button>
+
+      <div class="hr-line"></div>
+      <div>Result</div>
+      <p class="result">Look here to see your health status!</p>
+    </form>
+    <script>
+      const formEl = document.querySelector("form");
+      const kg = document.querySelector("#weight-In-Kg");
+      const heightFeet = document.querySelector("#height-in-feet");
+      const heightInInch = document.querySelector("#height-in-inch");
+      const result = document.querySelector(".result");
+
+      const errorMessage = "Please enter number !";
+
+      formEl.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (
+          isNaN(kg.value) === true ||
+          isNaN(heightFeet.value) === true ||
+          isNaN(heightInInch.value) === true
+        ) {
+          result.innerHTML = errorMessage;
+          result.style.color = "red";
+        } else {
+          const hInInch = heightFeet.value * 12;
+          //   console.log(hInInch);
+          const h = (hInInch + parseInt(heightInInch.value)) * 0.0254;
+          //5 feet 6" = 1.68 meters 1.6764
+          const hSqure = h * h;
+          const bmiValue = kg.value / hSqure;
+          //   console.log(bmiValue);
+          if (bmiValue <= 18.4) {
+            result.innerHTML = `Your BMI : ${bmiValue}, health status : Underweight`;
+          } else if (bmiValue > 18.5 && bmiValue < 24.9) {
+            result.innerHTML = `Your BMI : ${bmiValue}, health status : Normal`;
+          } else if (bmiValue > 25.0 && bmiValue < 39.9) {
+            result.innerHTML = `Your BMI : ${bmiValue}, health status : Overweight`;
+          } else if (bmiValue >= 40.0) {
+            result.innerHTML = `Your BMI : ${bmiValue}, health status : Obese`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
